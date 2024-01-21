@@ -10,6 +10,7 @@ import Loader from "./components/Loader";
 import Error from "./components/Error";
 import FinishScreen from "./FinishScreen";
 import Footer from "./components/Footer";
+import Progress from "./components/Progress";
 
 const initialData = {
   questions: [],
@@ -77,6 +78,13 @@ function App() {
     <div className="app">
       <Header />
       <Main>
+        <Progress
+          totalQuestion={totalQuestion}
+          index={index}
+          answer={answer}
+          points={points}
+          maxPossiblePoints={maxPossiblePoints}
+        />
         {status === "loading" && <Loader />}
         {status === "error" && <Error />}
         {status === "ready" && (
