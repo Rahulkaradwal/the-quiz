@@ -32,10 +32,14 @@ function reducer(state, action) {
     case "start":
       return { ...state, status: "active" };
     case "newAnswer":
-      // const question = state.question.at(state.index);
+      const question = state.questions.at(state.index);
       return {
         ...state,
         answer: action.payload,
+        points:
+          question.correctOption === action.payload
+            ? state.points + question.points
+            : state.points,
       };
     case "nextQuestion":
       return {
@@ -50,6 +54,8 @@ function reducer(state, action) {
         highscore:
           state.points > state.highscore ? state.points : state.highscore,
       };
+    case "restart":
+      return { ...initialData, questions: state.questions, status: "ready" };
     default:
       throw new Error();
   }
