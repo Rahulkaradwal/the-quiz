@@ -79,6 +79,7 @@ function App() {
           dispatch={dispatch}
           index={index}
           totalQuestion={totalQuestion}
+          answer={answer}
         />
       </Main>
     </div>
