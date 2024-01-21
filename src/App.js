@@ -6,6 +6,10 @@ import { useEffect, useReducer } from "react";
 import StartScreen from "./components/StartScreen";
 import Question from "./components/Question";
 import NextButton from "./components/NextButton";
+import Loader from "./components/Loader";
+import Error from "./components/Error";
+import FinishScreen from "./FinishScreen";
+import Footer from "./components/Footer";
 
 const initialData = {
   questions: [],
@@ -38,6 +42,13 @@ function reducer(state, action) {
         index: state.index + 1,
         answer: null,
       };
+    case "finish":
+      return {
+        ...state,
+        status: "finished",
+        highscore:
+          state.points > state.highscore ? state.points : state.highscore,
+      };
     default:
       throw new Error();
   }
@@ -60,27 +71,43 @@ function App() {
 
   // questions count
   const totalQuestion = questions.length;
+  const maxPossiblePoints = questions.reduce((cur, acc) => cur + acc.points, 0);
 
   return (
     <div className="app">
       <Header />
       <Main>
+        {status === "loading" && <Loader />}
+        {status === "error" && <Error />}
         {status === "ready" && (
           <StartScreen totalQuestion={totalQuestion} dispatch={dispatch} />
         )}
         {status === "active" && (
-          <Question
-            question={questions[index]}
+          <>
+            <Question
+              question={questions[index]}
+              dispatch={dispatch}
+              answer={answer}
+            />
+            <Footer>
+              <NextButton
+                dispatch={dispatch}
+                index={index}
+                totalQuestion={totalQuestion}
+                answer={answer}
+              />
+            </Footer>
+          </>
+        )}
+
+        {status === "finished" && (
+          <FinishScreen
+            points={points}
+            maxPossiblePoints={maxPossiblePoints}
+            highscore={highscore}
             dispatch={dispatch}
-            answer={answer}
           />
         )}
-        <NextButton
-          dispatch={dispatch}
-          index={index}
-          totalQuestion={totalQuestion}
-          answer={answer}
-        />
       </Main>
     </div>
   );
