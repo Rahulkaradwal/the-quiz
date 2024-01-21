@@ -5,6 +5,7 @@ import Main from "./components/Main";
 import { useEffect, useReducer } from "react";
 import StartScreen from "./components/StartScreen";
 import Question from "./components/Question";
+import NextButton from "./components/NextButton";
 
 const initialData = {
   questions: [],
@@ -74,6 +75,11 @@ function App() {
             answer={answer}
           />
         )}
+        <NextButton
+          dispatch={dispatch}
+          index={index}
+          totalQuestion={totalQuestion}
+        />
       </Main>
     </div>
   );
