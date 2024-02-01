@@ -1,6 +1,8 @@
 import React from "react";
+import { useQuiz } from "../context/ContextQuiz";
 
-function NextButton({ dispatch, index, totalQuestion, answer }) {
+function NextButton() {
+  const { dispatch, index, totalQuestion, answer } = useQuiz();
   if (answer === null) return null;
 
   if (index < totalQuestion - 1)
